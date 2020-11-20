@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import styles from '../styles/Home.module.css'
-import {GraphQLClient} from 'graphql-request';
+import { GraphQLClient } from 'graphql-request'
 
 const graphcms = new GraphQLClient(process.env.GRAPH_CMS_ENDPOINT);
 
