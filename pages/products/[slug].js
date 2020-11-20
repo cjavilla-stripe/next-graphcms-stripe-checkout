@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import getConfig from 'next/config'
 import { gql } from 'graphql-request'
 import { loadStripe } from '@stripe/stripe-js'
 
