@@ -15,5 +15,9 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "stripe": "^8.121.0"
+  },
+  "devDependencies": {
+    "postcss-preset-env": "^6.7.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   }
 }
