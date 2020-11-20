@@ -5,9 +5,7 @@ import {loadStripe} from '@stripe/stripe-js';
 
 import { graphCmsClient } from '../../lib/graphCmsClient'
 
-const {publicRuntimeConfig} = getConfig();
-const stripePromise = loadStripe(publicRuntimeConfig.stripePublishableKey)
-
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 // getStaticPaths
 export async function getStaticPaths() {

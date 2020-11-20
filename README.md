@@ -11,7 +11,7 @@ mv .env.local.sample .env.local
 Then configure the following environment variables:
 
 ```yml
-STRIPE_PUBLISHABLE_KEY=
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 
