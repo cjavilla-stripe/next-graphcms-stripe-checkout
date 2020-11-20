@@ -7,7 +7,7 @@ import { graphCmsClient } from '../../lib/graphCmsClient'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 export default async (req, res) => {
-  const {slug} = req.body;
+  const { slug } = req.body
 
   // fetch product from GraphCMS
   const { product } = await graphCmsClient.request(
@@ -21,7 +21,7 @@ export default async (req, res) => {
       }
     `,
     {
-      slug: slug,
+      slug: slug
     }
   )
 
@@ -31,24 +31,26 @@ export default async (req, res) => {
       cancel_url: `http://localhost:3000/products/${slug}`,
       mode: 'payment',
       payment_method_types: ['card', 'ideal', 'giropay', 'sepa_debit'],
-      line_items: [{
-        price_data: {
-          unit_amount: product.price,
-          currency: 'EUR',
-          product_data: {
-            name: product.name,
-            metadata: {
-              productSlug: slug
+      line_items: [
+        {
+          price_data: {
+            unit_amount: product.price,
+            currency: 'EUR',
+            product_data: {
+              name: product.name,
+              metadata: {
+                productSlug: slug
+              }
             }
-          }
-        },
-        quantity: 1,
-      }]
+          },
+          quantity: 1
+        }
+      ]
     })
     res.json(session)
     return
-  } catch(e) {
-    res.json({ error: { message: e }})
-    return;
+  } catch (e) {
+    res.json({ error: { message: e } })
+    return
   }
 }

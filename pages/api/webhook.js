@@ -6,15 +6,16 @@ import { graphCmsMutationClient } from '../../lib/graphCmsClient'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 export default async (req, res) => {
-  const event = req.body;
+  const event = req.body
 
   const session = await stripe.checkout.sessions.retrieve(
-    event.data.object.id, {
+    event.data.object.id,
+    {
       expand: ['line_items.data.price.product', 'customer']
     }
   )
-  const line_items = session.line_items.data;
-  const customer = session.customer;
+  const line_items = session.line_items.data
+  const customer = session.customer
 
   // create order and order items in GraphCMS
   const { order } = await graphCmsMutationClient.request(
@@ -38,13 +39,13 @@ export default async (req, res) => {
             total: li.amount_total,
             product: {
               connect: {
-                slug: li.price.product.metadata.productSlug,
-              },
-            },
-          })),
-        },
-      },
+                slug: li.price.product.metadata.productSlug
+              }
+            }
+          }))
+        }
+      }
     }
   )
-  res.json({message: 'success'})
+  res.json({ message: 'success' })
 }

@@ -23,8 +23,8 @@ export async function getStaticProps() {
   }
 }
 
-const IndexPage = ({products}) => {
-  return products.map(({name, slug, id, price}) => {
+const IndexPage = ({ products }) => {
+  return products.map(({ name, slug, id, price }) => {
     return (
       <div>
         <Link key={id} href={`/products/${slug}`}>

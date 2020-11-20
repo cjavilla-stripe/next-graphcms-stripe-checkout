@@ -1,7 +1,7 @@
 import Image from 'next/image'
-import getConfig from 'next/config';
+import getConfig from 'next/config'
 import { gql } from 'graphql-request'
-import {loadStripe} from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js'
 
 import { graphCmsClient } from '../../lib/graphCmsClient'
 
@@ -20,17 +20,17 @@ export async function getStaticPaths() {
     `
   )
   return {
-    paths: products.map(({slug}) => ({
+    paths: products.map(({ slug }) => ({
       params: {
         slug
       }
     })),
     fallback: false
-  };
+  }
 }
 
 // getStaticProps
-export async function getStaticProps({params}) {
+export async function getStaticProps({ params }) {
   const { product } = await graphCmsClient.request(
     gql`
       query ProductPageQuery($slug: String!) {
@@ -48,45 +48,43 @@ export async function getStaticProps({params}) {
       }
     `,
     {
-      slug: params.slug,
+      slug: params.slug
     }
   )
-  return  {
+  return {
     props: {
       product
     }
   }
 }
 
-const PayBtn = ({slug}) => {
+const PayBtn = ({ slug }) => {
   const handleClick = async (e) => {
-    e.preventDefault();
-    const stripe = await stripePromise;
+    e.preventDefault()
+    const stripe = await stripePromise
 
     // create checkout session
     const session = await fetch('/api/create-checkout-session', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         slug: slug
       })
-    }).then(resp => resp.json())
+    }).then((resp) => resp.json())
 
-    console.log({session})
+    console.log({ session })
     // redirect to checkout
     const result = await stripe.redirectToCheckout({
       sessionId: session.id
     })
   }
 
-  return (
-    <button onClick={handleClick}>Buy!</button>
-  )
+  return <button onClick={handleClick}>Buy!</button>
 }
 
-const ProductPage = ({product}) => {
+const ProductPage = ({ product }) => {
   const [image] = product.images
   return (
     <div>
