@@ -1,27 +1,28 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import Stripe from 'stripe'
-import {gql, GraphQLClient} from 'graphql-request'
+import { gql } from 'graphql-request'
+
+import { graphCmsClient } from '../../lib/graphCmsClient'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-const graphcms = new GraphQLClient(process.env.GRAPH_CMS_ENDPOINT);
 
 export default async (req, res) => {
   const {slug} = req.body;
 
   // fetch product from GraphCMS
-  const {product} = await graphcms.request(
+  const { product } = await graphCmsClient.request(
     gql`
-        query ProductPageQuery($slug: String!) {
-            product(where: {slug: $slug}) {
-              name
-              slug
-              price
-            }
+      query ProductPageQuery($slug: String!) {
+        product(where: { slug: $slug }) {
+          name
+          slug
+          price
         }
-      `,
-      {
-          slug: slug
       }
+    `,
+    {
+      slug: slug,
+    }
   )
 
   try {

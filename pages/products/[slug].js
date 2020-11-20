@@ -1,20 +1,24 @@
 import Image from 'next/image'
 import getConfig from 'next/config';
-import {gql, GraphQLClient} from 'graphql-request'
+import { gql } from 'graphql-request'
 import {loadStripe} from '@stripe/stripe-js';
+
+import { graphCmsClient } from '../../lib/graphCmsClient'
+
 const {publicRuntimeConfig} = getConfig();
 const stripePromise = loadStripe(publicRuntimeConfig.stripePublishableKey)
-const graphcms = new GraphQLClient(process.env.GRAPH_CMS_ENDPOINT);
+
 
 // getStaticPaths
 export async function getStaticPaths() {
-  const {products} = await graphcms.request(
-    gql`{
-      products {
-        name
-        slug
+  const { products } = await graphCmsClient.request(
+    gql`
+      {
+        products {
+          name
+          slug
+        }
       }
-    }
     `
   )
   return {
@@ -29,24 +33,24 @@ export async function getStaticPaths() {
 
 // getStaticProps
 export async function getStaticProps({params}) {
-  const {product} = await graphcms.request(
+  const { product } = await graphCmsClient.request(
     gql`
-        query ProductPageQuery($slug: String!) {
-    product(where: {slug: $slug}) {
-      name
-      slug
-      price
-      images {
-        id
-        url
-        width
-        height
+      query ProductPageQuery($slug: String!) {
+        product(where: { slug: $slug }) {
+          name
+          slug
+          price
+          images {
+            id
+            url
+            width
+            height
+          }
+        }
       }
-    }
-  }
-      `,
+    `,
     {
-      slug: params.slug
+      slug: params.slug,
     }
   )
   return  {
