@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.11.0",
+    "classcat": "^4.1.0",
     "graphql": "^15.4.0",
     "graphql-request": "^3.3.0",
     "next": "10.0.1",
@@ -18,6 +19,7 @@
     "stripe": "^8.121.0"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.3.1",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.2.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
