@@ -4,6 +4,7 @@ import { gql } from 'graphql-request'
 import { loadStripe } from '@stripe/stripe-js'
 import cc from 'classcat'
 
+import { formatCurrencyValue } from '../../lib/helpers'
 import { graphCmsClient } from '../../lib/graphCmsClient'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
@@ -55,11 +56,7 @@ export async function getStaticProps({ params }) {
     props: {
       product: {
         ...product,
-        formattedPrice: new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'EUR',
-          minimumFractionDigits: 0
-        }).format(Number(product.price / 100))
+        formattedPrice: formatCurrencyValue({ value: product.price })
       }
     }
   }

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
+import { formatCurrencyValue } from '../lib/helpers'
 import { graphCmsClient } from '../lib/graphCmsClient'
 
 export async function getStaticProps() {
@@ -26,11 +27,7 @@ export async function getStaticProps() {
     props: {
       products: products.map((product) => ({
         ...product,
-        formattedPrice: new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'EUR',
-          minimumFractionDigits: 0
-        }).format(Number(product.price / 100))
+        formattedPrice: formatCurrencyValue({ value: product.price })
       }))
     }
   }
